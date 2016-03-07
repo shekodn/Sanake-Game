@@ -3,6 +3,8 @@ import java.awt.BorderLayout;
 import java.awt.Point;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -85,6 +87,11 @@ public class SnakeGame extends JFrame {
 	 * The list that contains the queued directions.
 	 */
 	private LinkedList<Direction> directions;
+        
+        /**
+	 * The current file for loading a game.
+	 */
+	private String sNombreArchivo;
 	
 	/**
 	 * The current score.
@@ -557,6 +564,39 @@ public class SnakeGame extends JFrame {
 	public Direction getDirection() {
 		return directions.peek();
 	}
+        
+    /**
+     * Metodo que agrega la informacion del vector al archivo.
+     *
+     * @throws IOException
+     */
+    public void grabaArchivo() throws IOException {
+
+        RandomAccessFile fpwArchivo = new RandomAccessFile(sNombreArchivo, "rw");
+
+        fpwArchivo.writeInt(level);
+        fpwArchivo.writeInt(score);
+        fpwArchivo.writeInt(currentCol);
+        fpwArchivo.writeInt(currentRow);
+        fpwArchivo.writeInt(currentRotation);
+        fpwArchivo.writeInt(currentType.getType());
+        fpwArchivo.writeInt(nextType.getType());
+        fpwArchivo.writeFloat(gameSpeed);
+        fpwArchivo.writeBoolean(isGameOver);
+        fpwArchivo.writeBoolean(isNewGame);
+
+        int matStatus[][] = board.getMatrix();
+
+        fpwArchivo.writeInt(matStatus.length);
+        fpwArchivo.writeInt(matStatus[0].length);
+        for (int iR = 0; iR < matStatus.length; iR++) {
+            for (int iC = 0; iC < matStatus[0].length; iC++) {
+                fpwArchivo.writeInt(matStatus[iR][iC]);
+            }
+        }
+        fpwArchivo.close();
+    }
+        
 	
 	/**
 	 * Entry point of the program.
