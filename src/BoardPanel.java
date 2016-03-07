@@ -185,6 +185,7 @@ public class BoardPanel extends JPanel {
 
             /*
 			 * Set the message font and draw the messages in the center of the board.
+<<<<<<< HEAD
              */
             g.setFont(FONT);
             g.drawString(largeMessage, centerX - g.getFontMetrics().stringWidth(largeMessage) / 2, centerY - 50);
@@ -193,7 +194,7 @@ public class BoardPanel extends JPanel {
     }
 
     /**
-     * Draws a tile onto the board.
+     * Draws tiles onto the board.
      *
      * @param x The x coordinate of the tile (in pixels).
      * @param y The y coordinate of the tile (in pixels).
@@ -208,16 +209,44 @@ public class BoardPanel extends JPanel {
          */
         switch (type) {
 
-            /*
-		 * A fruit is depicted as a small red circle that with a bit of padding
-		 * on each side.
+            /**
+             * A fruit is depicted as a small red circle that with a bit of
+             * padding on each side.
              */
             case Fruit:
                 g.setColor(Color.RED);
                 g.fillOval(x + 2, y + 2, TILE_SIZE - 4, TILE_SIZE - 4);
                 break;
 
+            /**
+             * A fruit is depicted as a small green circle that with a bit of
+             * padding on each side.
+             */
+            case Fruit2:
+                g.setColor(Color.GREEN);
+                g.fillOval(x + 2, y + 2, TILE_SIZE - 4, TILE_SIZE - 4);
+                break;
+
+            /**
+             * A fruit is depicted as a small blue circle that with a bit of
+             * padding on each side.
+             */
+            case Fruit3:
+                g.setColor(Color.BLUE);
+                g.fillOval(x + 2, y + 2, TILE_SIZE - 4, TILE_SIZE - 4);
+                break;
+
+            /**
+             * A fruit is depicted as a small cyan circle that with a bit of
+             * padding on each side.
+             */
+            case badFruit:
+                g.setColor(Color.CYAN);
+                g.fillOval(x + 2, y + 2, TILE_SIZE - 4, TILE_SIZE - 4);
+                break;
+
             /*
+>>>>>>> origin/master
 		 * The snake body is depicted as a green square that takes up the
 		 * entire tile.
              */

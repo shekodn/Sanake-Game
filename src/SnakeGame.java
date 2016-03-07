@@ -310,11 +310,19 @@ public class SnakeGame extends JFrame {
 		 */
 		TileType collision = updateSnake();
 		
-		/*
+                /**
 		 * Here we handle the different possible collisions.
 		 * 
 		 * Fruit: If we collided with a fruit, we increment the number of
 		 * fruits that we've eaten, update the score, and spawn a new fruit.
+                 * 
+                 * Fruit 2: If we collided with a fruit2, we increment the number of
+		 * fruits that we've eaten by 2
+                 * 
+                 * Fruit 3: If we collided with a fruit3, we increment the number of
+		 * fruits that we've eaten by 3
+                 *
+                 * badFruit:If we collided with a badFruit, it's game over
 		 * 
 		 * SnakeBody: If we collided with our tail (or a wall), we flag that
 		 * the game is over and pause the game.
@@ -328,7 +336,16 @@ public class SnakeGame extends JFrame {
 			fruitsEaten++;
 			score += nextFruitScore;
 			spawnFruit();
-		} else if(collision == TileType.SnakeBody) {
+		}else if (collision == TileType.Fruit2){
+                        fruitsEaten+=2;
+			score += nextFruitScore;
+			spawnFruit2();
+                }else if (collision == TileType.Fruit3){
+                        fruitsEaten+=3;
+			score += nextFruitScore;
+			spawnFruit();
+                }else if(collision == TileType.SnakeBody || 
+                        collision == TileType.badFruit) {
 			isGameOver = true;
 			logicTimer.setPaused(true);
 		} else if(nextFruitScore > 10) {
@@ -532,6 +549,42 @@ public class SnakeGame extends JFrame {
 			}
 		}
 	}
+        
+        /**
+	 * Spawns a new fruit onto the board.
+	 */
+	private void spawnFruit2() {
+		//Reset the score for this fruit to 100.
+		this.nextFruitScore = 100;
+
+		/*
+		 * Get a random index based on the number of free spaces left on the board.
+		 */
+		int index = random.nextInt(BoardPanel.COL_COUNT * BoardPanel.ROW_COUNT - snake.size());
+		
+		/*
+		 * While we could just as easily choose a random index on the board
+		 * and check it if it's free until we find an empty one, that method
+		 * tends to hang if the snake becomes very large.
+		 * 
+		 * This method simply loops through until it finds the nth free index
+		 * and selects uses that. This means that the game will be able to
+		 * locate an index at a relatively constant rate regardless of the
+		 * size of the snake.
+		 */
+		int freeFound = -1;
+		for(int x = 0; x < BoardPanel.COL_COUNT; x++) {
+			for(int y = 0; y < BoardPanel.ROW_COUNT; y++) {
+				TileType type = board.getTile(x, y);
+				if(type == null || type == TileType.Fruit) {
+					if(++freeFound == index) {
+						board.setTile(x, y, TileType.Fruit2);
+						break;
+					}
+				}
+			}
+		}
+	}
 	
 	/**
 	 * Gets the current score.
@@ -570,32 +623,32 @@ public class SnakeGame extends JFrame {
      *
      * @throws IOException
      */
-    public void grabaArchivo() throws IOException {
-
-        RandomAccessFile fpwArchivo = new RandomAccessFile(sNombreArchivo, "rw");
-
-        fpwArchivo.writeInt(level);
-        fpwArchivo.writeInt(score);
-        fpwArchivo.writeInt(currentCol);
-        fpwArchivo.writeInt(currentRow);
-        fpwArchivo.writeInt(currentRotation);
-        fpwArchivo.writeInt(currentType.getType());
-        fpwArchivo.writeInt(nextType.getType());
-        fpwArchivo.writeFloat(gameSpeed);
-        fpwArchivo.writeBoolean(isGameOver);
-        fpwArchivo.writeBoolean(isNewGame);
-
-        int matStatus[][] = board.getMatrix();
-
-        fpwArchivo.writeInt(matStatus.length);
-        fpwArchivo.writeInt(matStatus[0].length);
-        for (int iR = 0; iR < matStatus.length; iR++) {
-            for (int iC = 0; iC < matStatus[0].length; iC++) {
-                fpwArchivo.writeInt(matStatus[iR][iC]);
-            }
-        }
-        fpwArchivo.close();
-    }
+//    public void grabaArchivo() throws IOException {
+//
+//        RandomAccessFile fpwArchivo = new RandomAccessFile(sNombreArchivo, "rw");
+//
+//        fpwArchivo.writeInt(level);
+//        fpwArchivo.writeInt(score);
+//        fpwArchivo.writeInt(currentCol);
+//        fpwArchivo.writeInt(currentRow);
+//        fpwArchivo.writeInt(currentRotation);
+//        fpwArchivo.writeInt(currentType.getType());
+//        fpwArchivo.writeInt(nextType.getType());
+//        fpwArchivo.writeFloat(gameSpeed);
+//        fpwArchivo.writeBoolean(isGameOver);
+//        fpwArchivo.writeBoolean(isNewGame);
+//
+//        int matStatus[][] = board.getMatrix();
+//
+//        fpwArchivo.writeInt(matStatus.length);
+//        fpwArchivo.writeInt(matStatus[0].length);
+//        for (int iR = 0; iR < matStatus.length; iR++) {
+//            for (int iC = 0; iC < matStatus[0].length; iC++) {
+//                fpwArchivo.writeInt(matStatus[iR][iC]);
+//            }
+//        }
+//        fpwArchivo.close();
+//    }
         
 	
 	/**
