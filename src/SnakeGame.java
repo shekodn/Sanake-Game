@@ -752,6 +752,7 @@ public class SnakeGame extends JFrame {
                 matBoard[iR] = finArchivo.readInt();
         }
         
+        snake.clear();
         board.clearBoard();
         board.setMatrix(matBoard);
         finArchivo.close();
