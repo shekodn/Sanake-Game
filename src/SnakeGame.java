@@ -257,6 +257,7 @@ public class SnakeGame extends JFrame {
 		this.directions = new LinkedList<>();
 		this.logicTimer = new Clock(9.0f);
 		this.isNewGame = true;
+                sNombreArchivo = "load.dat";
 		
 		//Set the timer to paused initially.
 		logicTimer.setPaused(true);
@@ -665,30 +666,32 @@ public class SnakeGame extends JFrame {
      *
      * @throws IOException
      */
-//    public void grabaArchivo() throws IOException {
-//
-//        RandomAccessFile fpwArchivo = new RandomAccessFile(sNombreArchivo, "rw");
-//
-//        
-//        fpwArchivo.writeInt(score);
-//        fpwArchivo.writeInt(getNextFruitScore());
-//        fpwArchivo.writeInt(getFruitsEaten());
-//        fpwArchivo.writeInt(currentRow);
-//        fpwArchivo.writeInt(currentRotation);
-//        fpwArchivo.writeInt(currentType.getType());
-//        fpwArchivo.writeInt(nextType.getType());
-//        fpwArchivo.writeFloat(gameSpeed);
-//        fpwArchivo.writeBoolean(isGameOver);
-//        fpwArchivo.writeBoolean(isNewGame);
-//
-//        int matStatus[] = board.getMatrix();
-//
-//        fpwArchivo.writeInt(matStatus.length);
-//        for (int iR = 0; iR < matStatus.length; iR++) {
-//                fpwArchivo.writeInt(matStatus[iR]);
-//        }
-//        fpwArchivo.close();
-//    }
+    public void grabaArchivo() throws IOException {
+
+        RandomAccessFile fpwArchivo = new RandomAccessFile(sNombreArchivo, "rw");
+
+        
+        fpwArchivo.writeInt(getScore());
+        fpwArchivo.writeInt(getNextFruitScore());
+        fpwArchivo.writeInt(getFruitsEaten());
+        fpwArchivo.writeBoolean(isGameOver);
+        fpwArchivo.writeBoolean(isNewGame);
+        
+        //linkedlist direccion
+        
+        //linkedlist snake
+        //fpwArchivo.writeObject(snake);
+        
+        
+        //guarda length array
+        int matStatus[] = board.getMatrix();
+        //guarda tiles
+        fpwArchivo.writeInt(matStatus.length);
+        for (int iR = 0; iR < matStatus.length; iR++) {
+                fpwArchivo.writeInt(matStatus[iR]);
+        }
+        fpwArchivo.close();
+    }
         
 	
 	/**
