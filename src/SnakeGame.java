@@ -623,30 +623,30 @@ public class SnakeGame extends JFrame {
      *
      * @throws IOException
      */
-    public void grabaArchivo() throws IOException {
-
-        RandomAccessFile fpwArchivo = new RandomAccessFile(sNombreArchivo, "rw");
-
-        
-        fpwArchivo.writeInt(score);
-        fpwArchivo.writeInt(getNextFruitScore());
-        fpwArchivo.writeInt(getFruitsEaten());
-        fpwArchivo.writeInt(currentRow);
-        fpwArchivo.writeInt(currentRotation);
-        fpwArchivo.writeInt(currentType.getType());
-        fpwArchivo.writeInt(nextType.getType());
-        fpwArchivo.writeFloat(gameSpeed);
-        fpwArchivo.writeBoolean(isGameOver);
-        fpwArchivo.writeBoolean(isNewGame);
-
-        int matStatus[] = board.getMatrix();
-
-        fpwArchivo.writeInt(matStatus.length);
-        for (int iR = 0; iR < matStatus.length; iR++) {
-                fpwArchivo.writeInt(matStatus[iR]);
-        }
-        fpwArchivo.close();
-    }
+//    public void grabaArchivo() throws IOException {
+//
+//        RandomAccessFile fpwArchivo = new RandomAccessFile(sNombreArchivo, "rw");
+//
+//        
+//        fpwArchivo.writeInt(score);
+//        fpwArchivo.writeInt(getNextFruitScore());
+//        fpwArchivo.writeInt(getFruitsEaten());
+//        fpwArchivo.writeInt(currentRow);
+//        fpwArchivo.writeInt(currentRotation);
+//        fpwArchivo.writeInt(currentType.getType());
+//        fpwArchivo.writeInt(nextType.getType());
+//        fpwArchivo.writeFloat(gameSpeed);
+//        fpwArchivo.writeBoolean(isGameOver);
+//        fpwArchivo.writeBoolean(isNewGame);
+//
+//        int matStatus[] = board.getMatrix();
+//
+//        fpwArchivo.writeInt(matStatus.length);
+//        for (int iR = 0; iR < matStatus.length; iR++) {
+//                fpwArchivo.writeInt(matStatus[iR]);
+//        }
+//        fpwArchivo.close();
+//    }
         
 	
 	/**
