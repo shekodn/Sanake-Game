@@ -3,7 +3,13 @@ import java.awt.BorderLayout;
 import java.awt.Point;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.RandomAccessFile;
 import java.util.LinkedList;
 import java.util.Random;
@@ -260,7 +266,9 @@ public class SnakeGame extends JFrame {
                             leeArchivo();
                         } catch (IOException ex) {
                             System.out.println(ex);
-                        }
+                        } catch (ClassNotFoundException ex) {
+                         System.out.println(ex);
+                    }
                     }
                     break;
 
@@ -788,6 +796,14 @@ public class SnakeGame extends JFrame {
     public Direction getDirection() {
         return directions.peek();
     }
+    /**
+     * Sets the current direction of the snake.
+     *
+     */
+    public void setDirection(Direction directionsP) {
+        directions.clear();
+         this.directions.push(directionsP);
+    }
     
     /**
      * Gets the current list of the snake.
@@ -815,8 +831,9 @@ public class SnakeGame extends JFrame {
      */
     public void grabaArchivo() throws IOException {
 
-        RandomAccessFile fpwArchivo = new RandomAccessFile(sNombreArchivo, "rw");
+        //RandomAccessFile fpwArchivo = new RandomAccessFile(sNombreArchivo, "rw");
         
+        ObjectOutputStream fpwArchivo = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(sNombreArchivo)));
         
         
 
@@ -827,9 +844,9 @@ public class SnakeGame extends JFrame {
         fpwArchivo.writeBoolean(isNewGame);
 
         //linkedlist direccion
-        //fpwArchivo.writeObject(directions.peek());
+        fpwArchivo.writeObject(this.getDirection());
         //linkedlist snake
-        //fpwArchivo.writeObject(snake);
+        fpwArchivo.writeObject(getSnake());
         //guarda length array
         int matStatus[] = board.getMatrix();
         //guarda tiles
@@ -845,18 +862,26 @@ public class SnakeGame extends JFrame {
      *
      * @throws IOException
      */
-    public void leeArchivo() throws IOException {
+    public void leeArchivo() throws IOException, ClassNotFoundException {
 
-        RandomAccessFile finArchivo = new RandomAccessFile(sNombreArchivo, "rw");
+        //RandomAccessFile finArchivo = new RandomAccessFile(sNombreArchivo, "rw");
 
+        ObjectInputStream finArchivo = new ObjectInputStream(new BufferedInputStream
+(new FileInputStream(sNombreArchivo)));
+        
         this.score = finArchivo.readInt();
         this.nextFruitScore = finArchivo.readInt();
         this.fruitsEaten = finArchivo.readInt();
         this.isGameOver = finArchivo.readBoolean();
         this.isNewGame = finArchivo.readBoolean();
 
+        //snake.clear();
         //linkedlist direccion
+        this.setDirection((Direction)finArchivo.readObject());
+        
         //linkedlist snake
+        this.setSnake((LinkedList)finArchivo.readObject());
+        
         int i = finArchivo.readInt();
         int matBoard[] = new int[i];
 
@@ -865,7 +890,7 @@ public class SnakeGame extends JFrame {
             matBoard[iR] = finArchivo.readInt();
         }
 
-        snake.clear();
+        //snake.clear();
         board.clearBoard();
         board.setMatrix(matBoard);
         finArchivo.close();
