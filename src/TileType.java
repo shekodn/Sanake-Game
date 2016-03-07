@@ -5,7 +5,9 @@ import java.awt.Color;
 /**
  * The {@code TileType} class represents the different
  * types of tiles that can be displayed on the screen.
- * @author Brendan Jones
+ * 
+ * @author Sergio Diaz A01192313
+ * @author Ana Karen Beltran A01192508
  *
  */
 public enum TileType {

@@ -23,7 +23,7 @@ import javax.swing.JFrame;
  * logic.
  *
  * @author Sergio Diaz A01192313
- * @author Ana Karen Beltran A01192
+ * @author Ana Karen Beltran A01192508
  *
  */
 public class SnakeGame extends JFrame {
