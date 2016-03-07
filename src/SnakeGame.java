@@ -697,6 +697,25 @@ public class SnakeGame extends JFrame {
     public Direction getDirection() {
         return directions.peek();
     }
+    
+    /**
+     * Gets the current list of the snake.
+     *
+     * @return The current lkl snake.
+     */
+    public LinkedList<Point> getSnake() {
+        return snake;
+    }
+    
+    /**
+     * Sets the new list of the snake.
+     *
+     */
+    public void setSnake(LinkedList<Point> snake) {
+        this.snake = snake;
+    }
+    
+    
 
     /**
      * Metodo que agrega la informacion del vector al archivo.
@@ -706,6 +725,9 @@ public class SnakeGame extends JFrame {
     public void grabaArchivo() throws IOException {
 
         RandomAccessFile fpwArchivo = new RandomAccessFile(sNombreArchivo, "rw");
+        
+        
+        
 
         fpwArchivo.writeInt(getScore());
         fpwArchivo.writeInt(getNextFruitScore());
@@ -714,6 +736,7 @@ public class SnakeGame extends JFrame {
         fpwArchivo.writeBoolean(isNewGame);
 
         //linkedlist direccion
+        //fpwArchivo.writeObject(directions.peek());
         //linkedlist snake
         //fpwArchivo.writeObject(snake);
         //guarda length array
