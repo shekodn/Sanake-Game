@@ -428,8 +428,10 @@ public class SnakeGame extends JFrame {
 		 */
 		if(old != TileType.SnakeBody) {
 			board.setTile(snake.peekFirst(), TileType.SnakeBody);
-			snake.push(head);
+			
+                        snake.push(head);
 			board.setTile(head, TileType.SnakeHead);
+                     
 			if(directions.size() > 1) {
 				directions.poll();
 			}
@@ -485,9 +487,11 @@ public class SnakeGame extends JFrame {
 		logicTimer.reset();
 		
 		/*
-		 * Spawn a new fruit.
+		 * Spawn a type of fruit.
 		 */
 		spawnFruit();
+                spawnFruit2();
+                spawnBadFruit();
 	}
 	
 	/**
@@ -556,6 +560,7 @@ public class SnakeGame extends JFrame {
 	private void spawnFruit2() {
 		//Reset the score for this fruit to 100.
 		this.nextFruitScore = 100;
+                
 
 		/*
 		 * Get a random index based on the number of free spaces left on the board.
@@ -576,9 +581,46 @@ public class SnakeGame extends JFrame {
 		for(int x = 0; x < BoardPanel.COL_COUNT; x++) {
 			for(int y = 0; y < BoardPanel.ROW_COUNT; y++) {
 				TileType type = board.getTile(x, y);
-				if(type == null || type == TileType.Fruit) {
+				if(type == null || type == TileType.Fruit2) {
 					if(++freeFound == index) {
 						board.setTile(x, y, TileType.Fruit2);
+						break;
+					}
+				}
+			}
+		}
+	}
+        
+        /**
+	 * Spawns a new fruit onto the board.
+	 */
+	private void spawnBadFruit() {
+		//Reset the score for this fruit to 100.
+		this.nextFruitScore = 100;
+                
+
+		/*
+		 * Get a random index based on the number of free spaces left on the board.
+		 */
+		int index = random.nextInt(BoardPanel.COL_COUNT * BoardPanel.ROW_COUNT - snake.size());
+		
+		/*
+		 * While we could just as easily choose a random index on the board
+		 * and check it if it's free until we find an empty one, that method
+		 * tends to hang if the snake becomes very large.
+		 * 
+		 * This method simply loops through until it finds the nth free index
+		 * and selects uses that. This means that the game will be able to
+		 * locate an index at a relatively constant rate regardless of the
+		 * size of the snake.
+		 */
+		int freeFound = -1;
+		for(int x = 0; x < BoardPanel.COL_COUNT; x++) {
+			for(int y = 0; y < BoardPanel.ROW_COUNT; y++) {
+				TileType type = board.getTile(x, y);
+				if(type == null || type == TileType.badFruit) {
+					if(++freeFound == index) {
+						board.setTile(x, y, TileType.badFruit);
 						break;
 					}
 				}

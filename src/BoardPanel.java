@@ -202,10 +202,10 @@ public class BoardPanel extends JPanel {
      * @param g The graphics object to draw to.
      */
     private void drawTile(int x, int y, TileType type, Graphics g) {
-        /*
-		 * Because each type of tile is drawn differently, it's easiest
-		 * to just run through a switch statement rather than come up with some
-		 * overly complex code to handle everything.
+        /**
+	 * Because each type of tile is drawn differently, it's easiest
+	 * to just run through a switch statement rather than come up with some
+         * overly complex code to handle everything.
          */
         switch (type) {
 
