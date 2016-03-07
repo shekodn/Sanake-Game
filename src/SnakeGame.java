@@ -669,9 +669,10 @@ public class SnakeGame extends JFrame {
 //
 //        RandomAccessFile fpwArchivo = new RandomAccessFile(sNombreArchivo, "rw");
 //
-//        fpwArchivo.writeInt(level);
+//        
 //        fpwArchivo.writeInt(score);
-//        fpwArchivo.writeInt(currentCol);
+//        fpwArchivo.writeInt(getNextFruitScore());
+//        fpwArchivo.writeInt(getFruitsEaten());
 //        fpwArchivo.writeInt(currentRow);
 //        fpwArchivo.writeInt(currentRotation);
 //        fpwArchivo.writeInt(currentType.getType());
@@ -680,14 +681,11 @@ public class SnakeGame extends JFrame {
 //        fpwArchivo.writeBoolean(isGameOver);
 //        fpwArchivo.writeBoolean(isNewGame);
 //
-//        int matStatus[][] = board.getMatrix();
+//        int matStatus[] = board.getMatrix();
 //
 //        fpwArchivo.writeInt(matStatus.length);
-//        fpwArchivo.writeInt(matStatus[0].length);
 //        for (int iR = 0; iR < matStatus.length; iR++) {
-//            for (int iC = 0; iC < matStatus[0].length; iC++) {
-//                fpwArchivo.writeInt(matStatus[iR][iC]);
-//            }
+//                fpwArchivo.writeInt(matStatus[iR]);
 //        }
 //        fpwArchivo.close();
 //    }
