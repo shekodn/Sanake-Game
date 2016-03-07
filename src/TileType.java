@@ -13,9 +13,10 @@ public enum TileType {
     Fruit(Color.RED, 0),
     Fruit2(Color.GREEN, 1),
     Fruit3(Color.BLUE, 2),
-    badFruit(Color.CYAN, 3),
+    badFruit(Color.CYAN, 3),//game ends inmediately 
     SnakeHead(Color.GREEN, 4),
-    SnakeBody(Color.GREEN, 5);
+    SnakeBody(Color.GREEN, 5),
+    FruitZero(Color.YELLOW,6);//score resets to zero
     
     private int iType;
 
