@@ -349,5 +349,27 @@ public class BoardPanel extends JPanel {
         }
         return State;
     }
+    
+    /**
+     * @setMatrix
+     *
+     * We use this method so we can save and load the game successfully. This
+     * setter is for the loading part specifically.
+     *
+     * @Parameter: none
+     * @retrun: State
+     */
+    public void setMatrix(int[] State) {
+
+        tiles = new TileType[State.length];
+
+        for (int iC = 0; iC < State.length; iC++) {
+            if (State[iC] != -1) {
+                tiles[iC] = TileType.values()[State[iC]];
+            } else {
+                tiles[iC] = null;
+            }
+        }
+    }
 
 }
