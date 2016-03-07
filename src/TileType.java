@@ -7,9 +7,11 @@
  */
 public enum TileType {
 
-	Fruit,
+	
         
         Fruit2,
+        
+        Fruit,
         
         Fruit3,
         
