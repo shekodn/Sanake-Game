@@ -9,8 +9,11 @@ import java.util.Random;
 import javax.swing.JFrame;
 
 /**
- * The {@code SnakeGame} class is responsible for handling much of the game's logic.
- * @author Brendan Jones
+ * The {@code SnakeGame} class is responsible for handling much of the game's 
+ * logic.
+ * 
+ * @author Sergio Diaz A01192313
+ * @author Ana Karen Beltran A01192
  *
  */
 public class SnakeGame extends JFrame {

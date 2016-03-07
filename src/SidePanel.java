@@ -52,7 +52,7 @@ public class SidePanel extends JPanel {
 	
 	private static final int STATISTICS_OFFSET = 150;
 	
-	private static final int CONTROLS_OFFSET = 320;
+	private static final int CONTROLS_OFFSET = 300;
 	
 	private static final int MESSAGE_STRIDE = 30;
 	
@@ -99,6 +99,8 @@ public class SidePanel extends JPanel {
 		g.drawString("Move Left: A / Left Arrowkey", LARGE_OFFSET, drawY += MESSAGE_STRIDE);
 		g.drawString("Move Right: D / Right Arrowkey", LARGE_OFFSET, drawY += MESSAGE_STRIDE);
 		g.drawString("Pause Game: P", LARGE_OFFSET, drawY += MESSAGE_STRIDE);
+                g.drawString("Load Game: C", LARGE_OFFSET, drawY += MESSAGE_STRIDE);
+                g.drawString("Save Game: G", LARGE_OFFSET, drawY += MESSAGE_STRIDE);
 	}
 
 }
