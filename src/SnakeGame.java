@@ -131,7 +131,14 @@ public class SnakeGame extends JFrame {
      * Variable used to control the color of the snake.
      */
     private int iSnakeTimer;
-
+    /*
+     * Audios
+     */
+    private SoundClip souBackgroundMusic;
+    private SoundClip souEatGood;
+    private SoundClip souEatBad;
+    
+    
 
     /**
      * Creates a new SnakeGame instance. Creates a new window, and sets up the
@@ -142,6 +149,17 @@ public class SnakeGame extends JFrame {
         setLayout(new BorderLayout());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
+        
+        
+        //Initizlizes loop for Background Music
+        souBackgroundMusic = new SoundClip("audio/BackgroundB.wav");
+        souBackgroundMusic.setLooping(true);
+        
+        //Initizlizes sounds when the snake eats an object
+        souEatGood = new SoundClip("audio/beep1.wav");
+        souEatBad = new SoundClip("audio/gunshot3.wav");
+        
+        
 
         /**
          *
@@ -248,6 +266,7 @@ public class SnakeGame extends JFrame {
                         if (!isGameOver) {
                             isPaused = !isPaused;
                             logicTimer.setPaused(isPaused);
+                            souBackgroundMusic.stop();
                         }
                         break;
 
@@ -256,6 +275,7 @@ public class SnakeGame extends JFrame {
                      */
                     case KeyEvent.VK_ENTER:
                         if (isNewGame || isGameOver) {
+                            souBackgroundMusic.play();
                             resetGame();
                         }
                         break;
@@ -408,26 +428,33 @@ public class SnakeGame extends JFrame {
             fruitsEaten++;
             score += nextFruitScore;
             spawnFruit();
+            souEatGood.play();
 
         } else if (collision == TileType.Fruit2) {
             fruitsEaten += 2;
             score += nextFruitScore;
             spawnFruit2();
+            souEatGood.play();
 
         } else if (collision == TileType.Fruit3) {
             fruitsEaten += 3;
             score += nextFruitScore;
             spawnFruit3();
+            souEatGood.play();
 
             
         } else if (collision == TileType.FruitZero) {
             score = 0;
             spawnFruitZero();
+            souEatBad.play();
             
         } else if (collision == TileType.SnakeBody
                 || collision == TileType.badFruit) {
             isGameOver = true;
             logicTimer.setPaused(true);
+            souEatBad.play();
+            souBackgroundMusic.stop();
+            
 
         } else if (nextFruitScore > 10) {
             nextFruitScore--;
@@ -566,7 +593,6 @@ public class SnakeGame extends JFrame {
      */
     private void resetGame() {
         /*
->>>>>>> origin/master
 		 * Reset the score statistics. (Note that nextFruitPoints is reset in
 		 * the spawnFruit function later on).
          */
