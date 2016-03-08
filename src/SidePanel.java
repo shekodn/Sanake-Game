@@ -48,10 +48,10 @@ public class SidePanel extends JPanel {
 		this.game = game;
 		
 		setPreferredSize(new Dimension(300, BoardPanel.ROW_COUNT * BoardPanel.TILE_SIZE));
-		setBackground(Color.BLACK);
+		setBackground(Color.WHITE);
 	}
 	
-	private static final int STATISTICS_OFFSET = 150;
+	private static final int STATISTICS_OFFSET = 60;
 	
 	private static final int CONTROLS_OFFSET = 300;
 	
@@ -68,13 +68,13 @@ public class SidePanel extends JPanel {
 		/*
 		 * Set the color to draw the font in to white.
 		 */
-		g.setColor(Color.WHITE);
+		g.setColor(Color.DARK_GRAY);
 		
 		/*
 		 * Draw the game name onto the window.
 		 */
 		g.setFont(LARGE_FONT);
-		g.drawString("Snake Game", getWidth() / 2 - g.getFontMetrics().stringWidth("Snake Game") / 2, 50);
+		g.drawString("Snake Game", getWidth() / 2 - g.getFontMetrics().stringWidth("Snake Game") / 2, 30);
 		
 		/*
 		 * Draw the categories onto the window.
@@ -93,7 +93,22 @@ public class SidePanel extends JPanel {
 		g.drawString("Total Score: " + game.getScore(), LARGE_OFFSET, drawY += MESSAGE_STRIDE);
 		g.drawString("Fruit Eaten: " + game.getFruitsEaten(), LARGE_OFFSET, drawY += MESSAGE_STRIDE);
 		g.drawString("Fruit Score: " + game.getNextFruitScore(), LARGE_OFFSET, drawY += MESSAGE_STRIDE);
+                //g.drawString("1 Fruit: " + g.drawOvall(BLACK), LARGE_OFFSET, drawY += MESSAGE_STRIDE);
                 
+                g.setColor(new Color(255,51,51));
+                g.setColor(new Color(153,255,51));
+                
+                
+                //g.setColor();
+                
+                g.fillOval(SMALL_OFFSET, drawY += MESSAGE_STRIDE-10, 10, 10);
+                g.fillOval(SMALL_OFFSET, drawY += MESSAGE_STRIDE-10, 10, 10);
+                g.fillOval(SMALL_OFFSET, drawY += MESSAGE_STRIDE-10, 10, 10);
+                g.fillOval(SMALL_OFFSET, drawY += MESSAGE_STRIDE-10, 10, 10);
+                g.fillOval(SMALL_OFFSET, drawY += MESSAGE_STRIDE-10, 10, 10);
+                
+                
+                 g.setColor(Color.DARK_GRAY);
 		//Draw the content for the controls category.
 		drawY = CONTROLS_OFFSET;
 		g.drawString("Move Up: W / Up Arrowkey", LARGE_OFFSET, drawY += MESSAGE_STRIDE);

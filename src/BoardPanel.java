@@ -78,7 +78,7 @@ public class BoardPanel extends JPanel {
         this.tiles = new TileType[ROW_COUNT * COL_COUNT];
 
         setPreferredSize(new Dimension(COL_COUNT * TILE_SIZE, ROW_COUNT * TILE_SIZE));
-        setBackground(Color.BLACK);
+        setBackground(Color.WHITE);
     }
 
     /**
@@ -159,7 +159,7 @@ public class BoardPanel extends JPanel {
 		 * Show a message on the screen based on the current game state.
          */
         if (game.isGameOver() || game.isNewGame() || game.isPaused()) {
-            g.setColor(Color.WHITE);
+            g.setColor(Color.BLACK);
 
             /*
 			 * Get the center coordinates of the board.
@@ -215,7 +215,7 @@ public class BoardPanel extends JPanel {
              * padding on each side.
              */
             case Fruit:
-                g.setColor(Color.RED);
+                g.setColor(type.getBaseColor());
                 g.fillOval(x + 2, y + 2, TILE_SIZE - 4, TILE_SIZE - 4);
                 break;
 
@@ -224,7 +224,7 @@ public class BoardPanel extends JPanel {
              * padding on each side.
              */
             case Fruit2:
-                g.setColor(Color.GREEN);
+                g.setColor(type.getBaseColor());
                 g.fillOval(x + 2, y + 2, TILE_SIZE - 4, TILE_SIZE - 4);
                 break;
 
@@ -233,7 +233,7 @@ public class BoardPanel extends JPanel {
              * padding on each side.
              */
             case Fruit3:
-                g.setColor(Color.BLUE);
+                g.setColor(type.getBaseColor());
                 g.fillOval(x + 2, y + 2, TILE_SIZE - 4, TILE_SIZE - 4);
                 break;
 
@@ -242,7 +242,7 @@ public class BoardPanel extends JPanel {
              * padding on each side.
              */
             case badFruit:
-                g.setColor(Color.CYAN);
+                g.setColor(type.getBaseColor());
                 g.fillOval(x + 2, y + 2, TILE_SIZE - 4, TILE_SIZE - 4);
                 break;
                 
@@ -251,7 +251,7 @@ public class BoardPanel extends JPanel {
              * padding on each side.
              */
             case FruitZero:
-                g.setColor(Color.YELLOW);
+                g.setColor(type.getBaseColor());
                 g.fillOval(x + 2, y + 2, TILE_SIZE - 4, TILE_SIZE - 4);
                 break;
 
@@ -260,7 +260,7 @@ public class BoardPanel extends JPanel {
 		 * entire tile.
              */
             case SnakeBody:
-                g.setColor(Color.GREEN);
+                g.setColor(type.getSnakeColor(game.iSnakeColorCounter));
                 g.fillRect(x, y, TILE_SIZE, TILE_SIZE);
                 break;
 
@@ -270,7 +270,7 @@ public class BoardPanel extends JPanel {
              */
             case SnakeHead:
                 //Fill the tile in with green.
-                g.setColor(Color.GREEN);
+                g.setColor(type.getSnakeColor(game.iSnakeColorCounter));
                 g.fillRect(x, y, TILE_SIZE, TILE_SIZE);
 
                 //Set the color to black so that we can start drawing the eyes.

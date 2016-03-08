@@ -1,5 +1,6 @@
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -120,6 +121,17 @@ public class SnakeGame extends JFrame {
      * Variable used to control the for depending of the eaten piece.
      */
     private int iCounter;
+    
+    /**
+     * Variable used to control the color of the snake.
+     */
+    public int iSnakeColorCounter;
+    
+    /**
+     * Variable used to control the color of the snake.
+     */
+    private int iSnakeTimer;
+
 
     /**
      * Creates a new SnakeGame instance. Creates a new window, and sets up the
@@ -140,6 +152,8 @@ public class SnakeGame extends JFrame {
 
         add(board, BorderLayout.CENTER);
         add(side, BorderLayout.EAST);
+        iSnakeColorCounter = 1;
+        iSnakeTimer = 0;
 
         /**
          * Adds a new key listener to the frame to process input.
@@ -323,6 +337,16 @@ public class SnakeGame extends JFrame {
              */
             if (logicTimer.hasElapsedCycle()) {
                 updateGame();
+            }
+
+            iSnakeTimer++;
+
+            if (iSnakeTimer >= 30) {
+                iSnakeColorCounter++;
+                if (iSnakeColorCounter > 3) {
+                    iSnakeColorCounter = 1;
+                }
+                iSnakeTimer = 0;
             }
 
             //Repaint the board and side panel with the new content.
@@ -548,7 +572,7 @@ public class SnakeGame extends JFrame {
          */
         this.score = 0;
         this.fruitsEaten = 0;
-
+        this.iSnakeColorCounter = 1;
         /*
 		 * Reset both the new game and game over flags.
          */
