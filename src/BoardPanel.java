@@ -67,6 +67,14 @@ public class BoardPanel extends JPanel {
      * The array of tiles that make up this board.
      */
     private TileType[] tiles;
+    
+    
+    //borrar
+    /**
+     * Glow Variables
+     */
+    private int iPieceGlow;
+    private boolean bCreciente;
 
     /**
      * Creates a new BoardPanel instance.
@@ -260,6 +268,7 @@ public class BoardPanel extends JPanel {
 		 * entire tile.
              */
             case SnakeBody:
+                
                 g.setColor(Color.GREEN);
                 g.fillRect(x, y, TILE_SIZE, TILE_SIZE);
                 break;
@@ -380,5 +389,92 @@ public class BoardPanel extends JPanel {
             }
         }
     }
+    
+    
+    
+    //ANIMACION
+    
+    /**
+     * shineTile
+     *
+     * Make the tile shine while dropping
+     * Pretty much the same as DrawTile
+     *
+     * @param type The type of tile to draw.
+     * @param x The column.
+     * @param y The row.
+     * @param g The graphics object.
+     */
+    private void shineTile(TileType type, int x, int y, Graphics g) {
+
+    	// Grow the color to make it look like shinning
+        if (bCreciente) {
+            iPieceGlow++;
+        } else {
+            iPieceGlow--;
+        }
+        Color cSetColor = Color.GREEN;
+        int iR = cSetColor.getRed() + iPieceGlow;
+        int iG = cSetColor.getGreen() + iPieceGlow;
+        int iB = cSetColor.getBlue() + iPieceGlow;
+
+        if (iR > 255) {
+            iR = 255;
+            bCreciente = false;
+        }
+        if (iG > 255) {
+            iG = 255;
+            bCreciente = false;
+        }
+        if (iB > 255) {
+            iB = 255;
+            bCreciente = false;
+        }
+
+        if (iR < 0) {
+            iR = 0;
+            bCreciente = true;
+        }
+        if (iG < 0) {
+            iG = 0;
+            bCreciente = true;
+        }
+        if (iB < 0) {
+            iB = 0;
+            bCreciente = true;
+        }
+        
+       
+        cSetColor = new Color(iR, iG, iB);
+       // iR = type.getBaseColor().getRed();
+        //iG = type.getBaseColor().getGreen();
+        //iB = type.getBaseColor().getBlue();
+        
+        
+        
+        // make 3 different size squares around each tile to make it look like shinning aura
+        Color cColor;
+        cColor = new Color((iR + 75) % 255, (iG + 75) % 255, (iB + 75) % 255, 75);
+        g.setColor(cColor);
+        g.fillRect(x - 3, y - 3, TILE_SIZE + 6, TILE_SIZE + 6);
+
+        cColor = new Color((iR + 100) % 255, (iG + 100) % 255, (iB + 100) % 255, 100);
+        g.setColor(cColor);
+        g.fillRect(x - 2, y - 2, TILE_SIZE + 4, TILE_SIZE + 4);
+
+        cColor = new Color((iR + 125) % 255, (iG + 125) % 255, (iB + 125) % 255, 125);
+        g.setColor(cColor);
+        g.fillRect(x - 1, y - 1, TILE_SIZE + 2, TILE_SIZE + 2);
+
+        
+        
+        //drawTile(cSetColor, cSetColor.brighter().brighter(), cSetColor.darker().darker(), x, y, g);
+       
+        g.setColor(cSetColor);
+        
+    }
+    
+    
+    
 
 }
