@@ -181,6 +181,7 @@ public class BoardPanel extends JPanel {
              */
             String largeMessage = null;
             String smallMessage = null;
+            g.setColor(new Color(194,71,71).darker());
             if (game.isNewGame()) {
                 largeMessage = "Snake Game!";
                 smallMessage = "Press Enter to Start";
