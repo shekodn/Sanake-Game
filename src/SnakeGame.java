@@ -284,11 +284,13 @@ public class SnakeGame extends JFrame {
                      * Saves game into a .dat file
                      */
                     case KeyEvent.VK_G: {
+                        if(!isGameOver && !isPaused){
                         try {
                             grabaArchivo();
                         } catch (IOException ex) {
                             System.out.println(ex);
                         }
+                    }
                     }
                     break;
 
@@ -296,12 +298,14 @@ public class SnakeGame extends JFrame {
                        * Reads game from a .dat file
                      */
                     case KeyEvent.VK_C: {
+                        if(!isGameOver && !isPaused){
                         try {
                             leeArchivo();
                         } catch (IOException ex) {
                             System.out.println(ex);
                         } catch (ClassNotFoundException ex) {
                          System.out.println(ex);
+                    }
                     }
                     }
                     break;
