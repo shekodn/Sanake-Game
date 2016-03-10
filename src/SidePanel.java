@@ -68,6 +68,8 @@ public class SidePanel extends JPanel {
     private static final int SMALL_OFFSET = 30;
 
     private static final int LARGE_OFFSET = 50;
+    
+    private int drawY = 190;
 
     /**
      * Images of fruits and bad fruits
@@ -122,39 +124,29 @@ public class SidePanel extends JPanel {
 
         //g.drawString("Controls", SMALL_OFFSET, drawY += MESSAGE_STRIDE);
         //g.drawString("drawY"+drawY, SMALL_OFFSET, drawY += MESSAGE_STRIDE);
-        drawY = 160;
+        
         
         g.setColor(new Color(255, 51, 51).darker());
-        g.drawImage(imaApple,LARGE_OFFSET, drawY += 20, null);
+        g.drawImage(imaApple,LARGE_OFFSET, drawY += 35, null);
       
-        
         g.setColor(new Color(153,51,51));
-        g.drawString("Apple: Adds 1 ",LARGE_OFFSET+20, drawY +10);
+        g.drawString("Apple: Adds 1 ",LARGE_OFFSET+20, drawY + 12);
         
         g.drawImage(imaKiwi,LARGE_OFFSET, drawY += 20, null);
-        g.drawString("Kiwi: Adds 2 ",LARGE_OFFSET+20, drawY +10);
+        g.drawString("Kiwi: Adds 2 ",LARGE_OFFSET+20, drawY + 12);
        
         g.drawImage(imaBlueBerry, LARGE_OFFSET, drawY += 20, null);
-        g.drawString("Blueberry: Add 3 ",LARGE_OFFSET+20, drawY +10);
+        g.drawString("Blueberry: Add 3 ",LARGE_OFFSET+20, drawY + 12);
         
         g.drawImage(imaCucumber, LARGE_OFFSET, drawY += 20, null);
-        g.drawString("Cucumber: Ends game inmediately",LARGE_OFFSET+20, drawY +10);
+        g.drawString("Cucumber: Ends game inmediately",LARGE_OFFSET+20, drawY +12);
         
         g.drawImage(imaOrange, LARGE_OFFSET, drawY += 20, null);
-        g.drawString("Orange: Reset socre to 0",LARGE_OFFSET+20, drawY +10);
+        g.drawString("Orange: Reset socre to 0",LARGE_OFFSET+20, drawY +12);
         
 
-        //g.setColor(Color.DARK_GRAY);
-         g.setColor(new Color(153,51,51));
-        //Draw the content for the controls category.
-        drawY = CONTROLS_OFFSET;
-        g.drawString("Move Up: W / Up Arrowkey", LARGE_OFFSET, drawY += MESSAGE_STRIDE);
-        g.drawString("Move Down: S / Down Arrowkey", LARGE_OFFSET, drawY += MESSAGE_STRIDE);
-        g.drawString("Move Left: A / Left Arrowkey", LARGE_OFFSET, drawY += MESSAGE_STRIDE);
-        g.drawString("Move Right: D / Right Arrowkey", LARGE_OFFSET, drawY += MESSAGE_STRIDE);
-        g.drawString("Pause Game: P", LARGE_OFFSET, drawY += MESSAGE_STRIDE);
-        g.drawString("Load Game: C", LARGE_OFFSET, drawY += MESSAGE_STRIDE);
-        g.drawString("Save Game: G", LARGE_OFFSET, drawY += MESSAGE_STRIDE);
+        drawControls(g);
+        
     }
     
     
@@ -189,6 +181,25 @@ public class SidePanel extends JPanel {
                     .getResource("images/blueberry.gif");
             imaBlueBerry = Toolkit.getDefaultToolkit().getImage(urlImagenBlueBerry);
            
+        }
+        
+        
+       /**
+        * Draw panel controls.
+        * 
+        */
+        public void drawControls(Graphics g) {
+            
+         g.setColor(new Color(153,51,51));
+        //Draw the content for the controls category.
+        drawY = CONTROLS_OFFSET;
+        g.drawString("Move Up: W / Up Arrowkey", LARGE_OFFSET, drawY += MESSAGE_STRIDE);
+        g.drawString("Move Down: S / Down Arrowkey", LARGE_OFFSET, drawY += MESSAGE_STRIDE);
+        g.drawString("Move Left: A / Left Arrowkey", LARGE_OFFSET, drawY += MESSAGE_STRIDE);
+        g.drawString("Move Right: D / Right Arrowkey", LARGE_OFFSET, drawY += MESSAGE_STRIDE);
+        g.drawString("Pause Game: P", LARGE_OFFSET, drawY += MESSAGE_STRIDE);
+        g.drawString("Load Game: C", LARGE_OFFSET, drawY += MESSAGE_STRIDE);
+        g.drawString("Save Game: G", LARGE_OFFSET, drawY += MESSAGE_STRIDE);
         }
 
 }
