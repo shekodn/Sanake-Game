@@ -266,8 +266,18 @@ public class SnakeGame extends JFrame {
                         if (!isGameOver) {
                             isPaused = !isPaused;
                             logicTimer.setPaused(isPaused);
-                            souBackgroundMusic.stop();
-                        }
+                            
+                            
+                            if (isPaused) {
+                                
+                                souBackgroundMusic.stop();  
+                            }
+                            
+                            else {
+                                
+                                souBackgroundMusic.play();  
+                            }
+                        }                    
                         break;
 
                     /**

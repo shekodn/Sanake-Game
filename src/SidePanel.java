@@ -3,8 +3,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.net.URL;
 
 import javax.swing.JPanel;
+
+
+  
 
 /**
  * The {@code SidePanel} class is responsible for displaying statistics and
@@ -55,7 +61,7 @@ public class SidePanel extends JPanel {
 
     private static final int STATISTICS_OFFSET = 60;
 
-    private static final int CONTROLS_OFFSET = 290;
+    private static final int CONTROLS_OFFSET = 300;
 
     private static final int MESSAGE_STRIDE = 25;
 
@@ -63,10 +69,22 @@ public class SidePanel extends JPanel {
 
     private static final int LARGE_OFFSET = 50;
 
+    /**
+     * Images of fruits and bad fruits
+     */
+    public Image imaApple;
+    public Image imaCucumber;
+    public Image imaKiwi;
+    public Image imaBlueBerry;
+    public Image imaOrange;
+    
+    
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        imageInit();
+        
         /**
          * Set the color to draw the font in to dark gray.
          */
@@ -87,7 +105,7 @@ public class SidePanel extends JPanel {
         g.setColor(Color.DARK_GRAY);
         g.drawString("Statistics", SMALL_OFFSET, STATISTICS_OFFSET);
         g.drawString("Controls", SMALL_OFFSET, CONTROLS_OFFSET);
-        g.drawString("Fruit Types", SMALL_OFFSET, 170);
+        g.drawString("Fruit Types", SMALL_OFFSET, 165);
 
         /**
          * Draw the category content onto the window.
@@ -95,7 +113,7 @@ public class SidePanel extends JPanel {
         g.setFont(SMALL_FONT);
         
         //g.setColor(Color.DARK_GRAY);
-         g.setColor(new Color(153,51,51));
+        g.setColor(new Color(153,51,51));
         //Draw the content for the statistics category.
         int drawY = STATISTICS_OFFSET;
         g.drawString("Total Score: " + game.getScore(), LARGE_OFFSET, drawY += MESSAGE_STRIDE);
@@ -104,32 +122,27 @@ public class SidePanel extends JPanel {
 
         //g.drawString("Controls", SMALL_OFFSET, drawY += MESSAGE_STRIDE);
         //g.drawString("drawY"+drawY, SMALL_OFFSET, drawY += MESSAGE_STRIDE);
-        drawY = 170;
+        drawY = 160;
         
-        g.setColor(new Color(255, 51, 51));//alarga 1
-        g.fillOval(LARGE_OFFSET, drawY += 10 , 12, 12);
         g.setColor(new Color(255, 51, 51).darker());
-        g.drawString("Adds 1.",LARGE_OFFSET+20, drawY +10);
+        g.drawImage(imaApple,LARGE_OFFSET, drawY += 20, null);
+      
         
-        g.setColor(new Color(153, 255, 51));//2
-        g.fillOval(LARGE_OFFSET, drawY += MESSAGE_STRIDE-10, 12, 12);
-        g.setColor(new Color(153, 255, 51).darker());
-        g.drawString("Adds 2. Double points.",LARGE_OFFSET+20, drawY +10);
+        g.setColor(new Color(153,51,51));
+        g.drawString("Apple: Adds 1 ",LARGE_OFFSET+20, drawY +10);
         
-        g.setColor(new Color(51, 153, 255));//3
-        g.fillOval(LARGE_OFFSET, drawY += MESSAGE_STRIDE - 10, 12, 12);
-        g.setColor(new Color(51, 153, 255).darker());
-        g.drawString("Alarga 3. Triple points.",LARGE_OFFSET+20, drawY +10);
+        g.drawImage(imaKiwi,LARGE_OFFSET, drawY += 20, null);
+        g.drawString("Kiwi: Adds 2 ",LARGE_OFFSET+20, drawY +10);
+       
+        g.drawImage(imaBlueBerry, LARGE_OFFSET, drawY += 20, null);
+        g.drawString("Blueberry: Add 3 ",LARGE_OFFSET+20, drawY +10);
         
-        g.setColor(Color.CYAN);//end game
-        g.fillOval(LARGE_OFFSET, drawY += MESSAGE_STRIDE - 10, 12, 12);
-        g.setColor(Color.CYAN.darker());
-        g.drawString("Ends game inmediately.",LARGE_OFFSET+20, drawY +10);
+        g.drawImage(imaCucumber, LARGE_OFFSET, drawY += 20, null);
+        g.drawString("Cucumber: Ends game inmediately",LARGE_OFFSET+20, drawY +10);
         
-        g.setColor(new Color(255, 153, 51));//rest to zero
-        g.fillOval(LARGE_OFFSET, drawY += MESSAGE_STRIDE - 10, 12, 12);
-        g.setColor(new Color(255, 153, 51).darker());
-        g.drawString("Reset socre to 0.",LARGE_OFFSET+20, drawY +10);
+        g.drawImage(imaOrange, LARGE_OFFSET, drawY += 20, null);
+        g.drawString("Orange: Reset socre to 0",LARGE_OFFSET+20, drawY +10);
+        
 
         //g.setColor(Color.DARK_GRAY);
          g.setColor(new Color(153,51,51));
@@ -143,5 +156,39 @@ public class SidePanel extends JPanel {
         g.drawString("Load Game: C", LARGE_OFFSET, drawY += MESSAGE_STRIDE);
         g.drawString("Save Game: G", LARGE_OFFSET, drawY += MESSAGE_STRIDE);
     }
+    
+    
+    /**
+         * Initializes the images. 
+         * Fruit 1 = apple
+         * Fruit 2 = kiwi
+         * Fruit 3 = blueberry
+         * Bad Fruit = cucumber
+         * Zero Fruit = orange
+         *
+         */
+        public void imageInit() {
+
+            URL urlImagenCucumber = this.getClass()
+                    .getResource("images/cucumber.gif");
+            imaCucumber = Toolkit.getDefaultToolkit().getImage(urlImagenCucumber);
+            
+            URL urlImagenKiwi = this.getClass()
+                    .getResource("images/kiwi.gif");
+            imaKiwi = Toolkit.getDefaultToolkit().getImage(urlImagenKiwi);
+            
+            URL urlImagenApple = this.getClass()
+                    .getResource("images/apple.png");
+            imaApple = Toolkit.getDefaultToolkit().getImage(urlImagenApple);
+            
+            URL urlImagenOrange = this.getClass()
+                    .getResource("images/orange.gif");
+            imaOrange = Toolkit.getDefaultToolkit().getImage(urlImagenOrange);
+            
+            URL urlImagenBlueBerry = this.getClass()
+                    .getResource("images/blueberry.gif");
+            imaBlueBerry = Toolkit.getDefaultToolkit().getImage(urlImagenBlueBerry);
+           
+        }
 
 }

@@ -2,7 +2,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Point;
+import java.awt.Toolkit;
+import java.net.URL;
 
 import javax.swing.JPanel;
 
@@ -68,13 +71,20 @@ public class BoardPanel extends JPanel {
      */
     private TileType[] tiles;
     
-    
-    //borrar
+
     /**
-     * Glow Variables
+     * Images of fruits and bad fruits
      */
-    private int iPieceGlow;
-    private boolean bCreciente;
+    public Image imaApple;
+    public Image imaCucumber;
+    public Image imaKiwi;
+    public Image imaBlueBerry;
+    public Image imaOrange;
+    
+    
+    
+    
+
 
     /**
      * Creates a new BoardPanel instance.
@@ -211,6 +221,9 @@ public class BoardPanel extends JPanel {
      * @param g The graphics object to draw to.
      */
     private void drawTile(int x, int y, TileType type, Graphics g) {
+        
+        imageInit();
+        
         /**
 	 * Because each type of tile is drawn differently, it's easiest
 	 * to just run through a switch statement rather than come up with some
@@ -223,8 +236,8 @@ public class BoardPanel extends JPanel {
              * padding on each side.
              */
             case Fruit:
-                g.setColor(type.getBaseColor());
-                g.fillOval(x + 2, y + 2, TILE_SIZE - 4, TILE_SIZE - 4);
+                
+                g.drawImage(imaApple,x + 2, y + 2, null);
                 break;
 
             /**
@@ -232,8 +245,7 @@ public class BoardPanel extends JPanel {
              * padding on each side.
              */
             case Fruit2:
-                g.setColor(type.getBaseColor());
-                g.fillOval(x + 2, y + 2, TILE_SIZE - 4, TILE_SIZE - 4);
+                g.drawImage(imaKiwi,x + 2, y + 2, null);
                 break;
 
             /**
@@ -241,8 +253,8 @@ public class BoardPanel extends JPanel {
              * padding on each side.
              */
             case Fruit3:
-                g.setColor(type.getBaseColor());
-                g.fillOval(x + 2, y + 2, TILE_SIZE - 4, TILE_SIZE - 4);
+                
+                g.drawImage(imaBlueBerry,x + 2, y + 2, null);
                 break;
 
             /**
@@ -250,8 +262,8 @@ public class BoardPanel extends JPanel {
              * padding on each side.
              */
             case badFruit:
-                g.setColor(type.getBaseColor());
-                g.fillOval(x + 2, y + 2, TILE_SIZE - 4, TILE_SIZE - 4);
+               
+                g.drawImage(imaCucumber,x + 2, y + 2, null);
                 break;
                 
             /**
@@ -259,8 +271,8 @@ public class BoardPanel extends JPanel {
              * padding on each side.
              */
             case FruitZero:
-                g.setColor(type.getBaseColor());
-                g.fillOval(x + 2, y + 2, TILE_SIZE - 4, TILE_SIZE - 4);
+                
+                g.drawImage(imaOrange,x + 2, y + 2, null);
                 break;
 
             /*
@@ -387,93 +399,41 @@ public class BoardPanel extends JPanel {
                 tiles[iC] = null;
             }
         }
-    }
-    
-    
-    
-    //ANIMACION
-    
-    /**
-     * shineTile
-     *
-     * Make the tile shine while dropping
-     * Pretty much the same as DrawTile
-     *
-     * @param type The type of tile to draw.
-     * @param x The column.
-     * @param y The row.
-     * @param g The graphics object.
-     */
-    private void shineTile(TileType type, int x, int y, Graphics g) {
-
-    	// Grow the color to make it look like shinning
-        if (bCreciente) {
-            iPieceGlow++;
-        } else {
-            iPieceGlow--;
-        }
-        Color cSetColor = Color.GREEN;
-        int iR = cSetColor.getRed() + iPieceGlow;
-        int iG = cSetColor.getGreen() + iPieceGlow;
-        int iB = cSetColor.getBlue() + iPieceGlow;
-
-        if (iR > 255) {
-            iR = 255;
-            bCreciente = false;
-        }
-        if (iG > 255) {
-            iG = 255;
-            bCreciente = false;
-        }
-        if (iB > 255) {
-            iB = 255;
-            bCreciente = false;
-        }
-
-        if (iR < 0) {
-            iR = 0;
-            bCreciente = true;
-        }
-        if (iG < 0) {
-            iG = 0;
-            bCreciente = true;
-        }
-        if (iB < 0) {
-            iB = 0;
-            bCreciente = true;
-        }
-        
-       
-        cSetColor = new Color(iR, iG, iB);
-       // iR = type.getBaseColor().getRed();
-        //iG = type.getBaseColor().getGreen();
-        //iB = type.getBaseColor().getBlue();
-        
-        
-        
-        // make 3 different size squares around each tile to make it look like shinning aura
-        Color cColor;
-        cColor = new Color((iR + 75) % 255, (iG + 75) % 255, (iB + 75) % 255, 75);
-        g.setColor(cColor);
-        g.fillRect(x - 3, y - 3, TILE_SIZE + 6, TILE_SIZE + 6);
-
-        cColor = new Color((iR + 100) % 255, (iG + 100) % 255, (iB + 100) % 255, 100);
-        g.setColor(cColor);
-        g.fillRect(x - 2, y - 2, TILE_SIZE + 4, TILE_SIZE + 4);
-
-        cColor = new Color((iR + 125) % 255, (iG + 125) % 255, (iB + 125) % 255, 125);
-        g.setColor(cColor);
-        g.fillRect(x - 1, y - 1, TILE_SIZE + 2, TILE_SIZE + 2);
-
-        
-        
-        //drawTile(cSetColor, cSetColor.brighter().brighter(), cSetColor.darker().darker(), x, y, g);
-       
-        g.setColor(cSetColor);
         
     }
-    
-    
-    
+        
+        /**
+         * Initializes the images. 
+         * Fruit 1 = apple
+         * Fruit 2 = kiwi
+         * Fruit 3 = blueberry
+         * Bad Fruit = cucumber
+         * Zero Fruit = orange
+         *
+         */
+        public void imageInit() {
 
-}
+            URL urlImagenCucumber = this.getClass()
+                    .getResource("images/cucumber.gif");
+            imaCucumber = Toolkit.getDefaultToolkit().getImage(urlImagenCucumber);
+            
+            URL urlImagenKiwi = this.getClass()
+                    .getResource("images/kiwi.gif");
+            imaKiwi = Toolkit.getDefaultToolkit().getImage(urlImagenKiwi);
+            
+            URL urlImagenApple = this.getClass()
+                    .getResource("images/apple.png");
+            imaApple = Toolkit.getDefaultToolkit().getImage(urlImagenApple);
+            
+            URL urlImagenOrange = this.getClass()
+                    .getResource("images/orange.gif");
+            imaOrange = Toolkit.getDefaultToolkit().getImage(urlImagenOrange);
+            
+            URL urlImagenBlueBerry = this.getClass()
+                    .getResource("images/blueberry.gif");
+            imaBlueBerry = Toolkit.getDefaultToolkit().getImage(urlImagenBlueBerry);
+           
+        }
+    }
+    
+ 
