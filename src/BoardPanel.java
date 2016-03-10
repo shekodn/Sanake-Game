@@ -1,3 +1,4 @@
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -70,7 +71,6 @@ public class BoardPanel extends JPanel {
      * The array of tiles that make up this board.
      */
     private TileType[] tiles;
-    
 
     /**
      * Images of fruits and bad fruits
@@ -80,11 +80,6 @@ public class BoardPanel extends JPanel {
     public Image imaKiwi;
     public Image imaBlueBerry;
     public Image imaOrange;
-    
-    
-    
-    
-
 
     /**
      * Creates a new BoardPanel instance.
@@ -95,7 +90,8 @@ public class BoardPanel extends JPanel {
         this.game = game;
         this.tiles = new TileType[ROW_COUNT * COL_COUNT];
 
-        setPreferredSize(new Dimension(COL_COUNT * TILE_SIZE, ROW_COUNT * TILE_SIZE));
+        setPreferredSize(new Dimension(COL_COUNT * TILE_SIZE, ROW_COUNT
+                * TILE_SIZE));
         setBackground(Color.WHITE);
     }
 
@@ -139,15 +135,12 @@ public class BoardPanel extends JPanel {
     public TileType getTile(int x, int y) {
         return tiles[y * ROW_COUNT + x];
     }
-
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-
-        /*
-		 * Loop through each tile on the board and draw it if it
-		 * is not null.
-         */
+    
+    /**
+     * Loop through each tile on the board and draw it if it is not null.
+     */
+    public void drawTile(Graphics g){
+                
         for (int x = 0; x < COL_COUNT; x++) {
             for (int y = 0; y < ROW_COUNT; y++) {
                 TileType type = getTile(x, y);
@@ -156,14 +149,18 @@ public class BoardPanel extends JPanel {
                 }
             }
         }
+    }
+    
+    
+    /**
+     * Draw the grid on the board. This makes it easier to see exactly where we
+     * in relation to the fruit.
+     *
+     * The panel is one pixel too small to draw the bottom and right outlines,
+     * so we outline the board with a rectangle separately.
+     */
+    public void drawGrid(Graphics g) {
 
-        /*
-		 * Draw the grid on the board. This makes it easier to see exactly
-		 * where we in relation to the fruit.
-		 * 
-		 * The panel is one pixel too small to draw the bottom and right
-		 * outlines, so we outline the board with a rectangle separately.
-         */
         g.setColor(Color.DARK_GRAY);
         g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
         for (int x = 0; x < COL_COUNT; x++) {
@@ -172,26 +169,19 @@ public class BoardPanel extends JPanel {
                 g.drawLine(0, y * TILE_SIZE, getWidth(), y * TILE_SIZE);
             }
         }
-
-        /*
-		 * Show a message on the screen based on the current game state.
+    }
+    
+    public void messageAllocator(Graphics g) {
+        
+        /**
+         * Get the center coordinates of the board.
          */
-        if (game.isGameOver() || game.isNewGame() || game.isPaused()) {
-            g.setColor(Color.BLACK);
+         int centerX = getWidth() / 2;
+         int centerY = getHeight() / 2;
 
-            /*
-			 * Get the center coordinates of the board.
-             */
-            int centerX = getWidth() / 2;
-            int centerY = getHeight() / 2;
-
-            /*
-			 * Allocate the messages for and set their values based on the game
-			 * state.
-             */
-            String largeMessage = null;
+         String largeMessage = null;
             String smallMessage = null;
-            g.setColor(new Color(194,71,71).darker());
+            g.setColor(new Color(194, 71, 71).darker());
             if (game.isNewGame()) {
                 largeMessage = "Snake Game!";
                 smallMessage = "Press Enter to Start";
@@ -202,13 +192,51 @@ public class BoardPanel extends JPanel {
                 largeMessage = "Paused";
                 smallMessage = "Press P to Resume";
             }
-
-            /*
-			 * Set the message font and draw the messages in the center of the board.
+            
+            /**
+             * Set the message font and draw the messages in the center of the board.
              */
             g.setFont(FONT);
-            g.drawString(largeMessage, centerX - g.getFontMetrics().stringWidth(largeMessage) / 2, centerY - 50);
-            g.drawString(smallMessage, centerX - g.getFontMetrics().stringWidth(smallMessage) / 2, centerY + 50);
+            g.drawString(largeMessage, centerX - g.getFontMetrics().
+                    stringWidth(largeMessage) / 2, centerY - 50);
+            g.drawString(smallMessage, centerX - g.getFontMetrics().
+                    stringWidth(smallMessage) / 2, centerY + 50);
+        
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        /**
+         * Loop through each tile on the board and draw it if it is not null.
+         */
+        
+        drawTile(g);
+
+        /**
+         * Draw the grid on the board. This makes it easier to see exactly where
+         * we in relation to the fruit.
+         *
+         * The panel is one pixel too small to draw the bottom and right
+         * outlines, so we outline the board with a rectangle separately.
+         */
+        drawGrid(g);
+
+        /**
+         * Show a message on the screen based on the current game state.
+         */
+        if (game.isGameOver() || game.isNewGame() || game.isPaused()) {
+            g.setColor(Color.BLACK);
+
+            
+            /**
+             * Allocate the messages for and set their values based on the game
+             * state.
+             */
+            
+            messageAllocator(g);
+  
         }
     }
 
@@ -221,13 +249,13 @@ public class BoardPanel extends JPanel {
      * @param g The graphics object to draw to.
      */
     private void drawTile(int x, int y, TileType type, Graphics g) {
-        
+
         imageInit();
-        
+
         /**
-	 * Because each type of tile is drawn differently, it's easiest
-	 * to just run through a switch statement rather than come up with some
-         * overly complex code to handle everything.
+         * Because each type of tile is drawn differently, it's easiest to just
+         * run through a switch statement rather than come up with some overly
+         * complex code to handle everything.
          */
         switch (type) {
 
@@ -236,8 +264,8 @@ public class BoardPanel extends JPanel {
              * padding on each side.
              */
             case Fruit:
-                
-                g.drawImage(imaApple,x + 2, y + 2, null);
+
+                g.drawImage(imaApple, x + 2, y + 2, null);
                 break;
 
             /**
@@ -245,7 +273,7 @@ public class BoardPanel extends JPanel {
              * padding on each side.
              */
             case Fruit2:
-                g.drawImage(imaKiwi,x + 2, y + 2, null);
+                g.drawImage(imaKiwi, x + 2, y + 2, null);
                 break;
 
             /**
@@ -253,8 +281,8 @@ public class BoardPanel extends JPanel {
              * padding on each side.
              */
             case Fruit3:
-                
-                g.drawImage(imaBlueBerry,x + 2, y + 2, null);
+
+                g.drawImage(imaBlueBerry, x + 2, y + 2, null);
                 break;
 
             /**
@@ -262,17 +290,17 @@ public class BoardPanel extends JPanel {
              * padding on each side.
              */
             case badFruit:
-               
-                g.drawImage(imaCucumber,x + 2, y + 2, null);
+
+                g.drawImage(imaCucumber, x + 2, y + 2, null);
                 break;
-                
+
             /**
              * A fruit is depicted as a small Yellow circle that with a bit of
              * padding on each side.
              */
             case FruitZero:
-                
-                g.drawImage(imaOrange,x + 2, y + 2, null);
+
+                g.drawImage(imaOrange, x + 2, y + 2, null);
                 break;
 
             /*
@@ -280,7 +308,7 @@ public class BoardPanel extends JPanel {
 		 * entire tile.
              */
             case SnakeBody:
-                g.setColor(type.getSnakeColor(game.iSnakeColorCounter));                
+                g.setColor(type.getSnakeColor(game.iSnakeColorCounter));
                 g.fillRect(x, y, TILE_SIZE, TILE_SIZE);
                 break;
 
@@ -378,7 +406,7 @@ public class BoardPanel extends JPanel {
         }
         return State;
     }
-    
+
     /**
      * @setMatrix
      *
@@ -399,41 +427,35 @@ public class BoardPanel extends JPanel {
                 tiles[iC] = null;
             }
         }
-        
-    }
-        
-        /**
-         * Initializes the images. 
-         * Fruit 1 = apple
-         * Fruit 2 = kiwi
-         * Fruit 3 = blueberry
-         * Bad Fruit = cucumber
-         * Zero Fruit = orange
-         *
-         */
-        public void imageInit() {
 
-            URL urlImagenCucumber = this.getClass()
-                    .getResource("images/cucumber.gif");
-            imaCucumber = Toolkit.getDefaultToolkit().getImage(urlImagenCucumber);
-            
-            URL urlImagenKiwi = this.getClass()
-                    .getResource("images/kiwi.gif");
-            imaKiwi = Toolkit.getDefaultToolkit().getImage(urlImagenKiwi);
-            
-            URL urlImagenApple = this.getClass()
-                    .getResource("images/apple.png");
-            imaApple = Toolkit.getDefaultToolkit().getImage(urlImagenApple);
-            
-            URL urlImagenOrange = this.getClass()
-                    .getResource("images/orange.gif");
-            imaOrange = Toolkit.getDefaultToolkit().getImage(urlImagenOrange);
-            
-            URL urlImagenBlueBerry = this.getClass()
-                    .getResource("images/blueberry.gif");
-            imaBlueBerry = Toolkit.getDefaultToolkit().getImage(urlImagenBlueBerry);
-           
-        }
     }
-    
- 
+
+    /**
+     * Initializes the images. Fruit 1 = apple Fruit 2 = kiwi Fruit 3 =
+     * blueberry Bad Fruit = cucumber Zero Fruit = orange
+     *
+     */
+    public void imageInit() {
+
+        URL urlImagenCucumber = this.getClass().
+                getResource("images/cucumber.gif");
+        imaCucumber = Toolkit.getDefaultToolkit().getImage(urlImagenCucumber);
+
+        URL urlImagenKiwi = this.getClass()
+                .getResource("images/kiwi.gif");
+        imaKiwi = Toolkit.getDefaultToolkit().getImage(urlImagenKiwi);
+
+        URL urlImagenApple = this.getClass()
+                .getResource("images/apple.png");
+        imaApple = Toolkit.getDefaultToolkit().getImage(urlImagenApple);
+
+        URL urlImagenOrange = this.getClass()
+                .getResource("images/orange.gif");
+        imaOrange = Toolkit.getDefaultToolkit().getImage(urlImagenOrange);
+
+        URL urlImagenBerry = this.getClass()
+                .getResource("images/blueberry.gif");
+        imaBlueBerry = Toolkit.getDefaultToolkit().getImage(urlImagenBerry);
+
+    }
+}

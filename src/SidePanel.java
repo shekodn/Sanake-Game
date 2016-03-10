@@ -207,7 +207,7 @@ public class SidePanel extends JPanel {
         g.drawImage(imaKiwi,LARGE_OFFSET, drawY += 20, null);
         g.drawString("Kiwi: Adds 2 ",LARGE_OFFSET+20, drawY + 12);
         g.drawImage(imaBlueBerry, LARGE_OFFSET, drawY += 20, null);
-        g.drawString("Blueberry: Add 3 ",LARGE_OFFSET+20, drawY + 12);
+        g.drawString("Blueberry: Adds 3 ",LARGE_OFFSET+20, drawY + 12);
         g.drawImage(imaCucumber, LARGE_OFFSET, drawY += 20, null);
         g.drawString("Cucumber: Ends game inmediately",LARGE_OFFSET+20, 
                 drawY + 12);
