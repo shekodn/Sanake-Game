@@ -171,7 +171,6 @@ public class BoardPanel extends JPanel {
     }
 
     public void messageAllocator(Graphics g) {
-
         /**
          * Get the center coordinates of the board.
          */
@@ -191,7 +190,7 @@ public class BoardPanel extends JPanel {
             largeMessage = "Paused";
             smallMessage = "Press P to Resume";
         }
-
+        
         /**
          * Set the message font and draw the messages in the center of the
          * board.
@@ -226,13 +225,12 @@ public class BoardPanel extends JPanel {
          */
         if (game.isGameOver() || game.isNewGame() || game.isPaused()) {
             g.setColor(Color.BLACK);
-
+            
             /**
              * Allocate the messages for and set their values based on the game
              * state.
              */
             messageAllocator(g);
-
         }
     }
 
@@ -253,6 +251,7 @@ public class BoardPanel extends JPanel {
          * run through a switch statement rather than come up with some overly
          * complex code to handle everything.
          */
+        
         switch (type) {
 
             /**
@@ -277,7 +276,6 @@ public class BoardPanel extends JPanel {
              * padding on each side.
              */
             case Fruit3:
-
                 g.drawImage(imaBlueBerry, x + 2, y + 2, null);
                 break;
 
@@ -286,7 +284,6 @@ public class BoardPanel extends JPanel {
              * padding on each side.
              */
             case badFruit:
-
                 g.drawImage(imaCucumber, x + 2, y + 2, null);
                 break;
 
@@ -295,17 +292,15 @@ public class BoardPanel extends JPanel {
              * padding on each side.
              */
             case FruitZero:
-
                 g.drawImage(imaOrange, x + 2, y + 2, null);
                 break;
 
-            /*
-		 * The snake body is depicted as a green square that takes up the
-		 * entire tile.
+            /**
+             * The snake body is depicted as a green square that takes up the
+             * entire tile.
              */
             case SnakeBody:
-                g.setColor(type.getSnakeColor(game.iSnakeColorCounter));
-                g.fillRect(x, y, TILE_SIZE, TILE_SIZE);
+                snakeBody(x, y, type, g);
                 break;
 
             /**
@@ -313,12 +308,8 @@ public class BoardPanel extends JPanel {
              * lines (representing eyes) that indicate it's direction.
              */
             case SnakeHead:
-                //Fill the tile in with green.
-                g.setColor(type.getSnakeColor(game.iSnakeColorCounter));
-                g.fillRect(x, y, TILE_SIZE, TILE_SIZE);
-
-                //Set the color to black so that we can start drawing the eyes.
-                g.setColor(Color.BLACK);
+               
+                snakeHead(x, y,  type, g);
 
                 /**
                  * The eyes will always 'face' the direction that the snake is
@@ -330,53 +321,8 @@ public class BoardPanel extends JPanel {
                  * Additionally, the eyes will be closer to whichever edge it's
                  * facing.
                  *
-                 * Drawing the eyes is fairly simple, but is a bit difficult to
-                 * explain. The basic process is this:
-                 *
-                 * First, we add (or subtract) EYE_SMALL_INSET to or from the
-                 * side of the tile representing the direction we're facing.
-                 * This will be constant for both eyes, and is represented by
-                 * the variable 'baseX' or 'baseY' (depending on orientation).
-                 *
-                 * Next, we add (or subtract) EYE_LARGE_INSET to and from the
-                 * two neighboring directions (Example; East and West if we're
-                 * facing north).
-                 *
-                 * Finally, we draw a line from the base offset that is
-                 * EYE_LENGTH pixels in length at whatever the offset is from
-                 * the neighboring directions.
-                 *
                  */
-                switch (game.getDirection()) {
-                    case North: {
-                        int baseY = y + EYE_SMALL_INSET;
-                        g.drawLine(x + EYE_LARGE_INSET, baseY, x + EYE_LARGE_INSET, baseY + EYE_LENGTH);
-                        g.drawLine(x + TILE_SIZE - EYE_LARGE_INSET, baseY, x + TILE_SIZE - EYE_LARGE_INSET, baseY + EYE_LENGTH);
-                        break;
-                    }
-
-                    case South: {
-                        int baseY = y + TILE_SIZE - EYE_SMALL_INSET;
-                        g.drawLine(x + EYE_LARGE_INSET, baseY, x + EYE_LARGE_INSET, baseY - EYE_LENGTH);
-                        g.drawLine(x + TILE_SIZE - EYE_LARGE_INSET, baseY, x + TILE_SIZE - EYE_LARGE_INSET, baseY - EYE_LENGTH);
-                        break;
-                    }
-
-                    case West: {
-                        int baseX = x + EYE_SMALL_INSET;
-                        g.drawLine(baseX, y + EYE_LARGE_INSET, baseX + EYE_LENGTH, y + EYE_LARGE_INSET);
-                        g.drawLine(baseX, y + TILE_SIZE - EYE_LARGE_INSET, baseX + EYE_LENGTH, y + TILE_SIZE - EYE_LARGE_INSET);
-                        break;
-                    }
-
-                    case East: {
-                        int baseX = x + TILE_SIZE - EYE_SMALL_INSET;
-                        g.drawLine(baseX, y + EYE_LARGE_INSET, baseX - EYE_LENGTH, y + EYE_LARGE_INSET);
-                        g.drawLine(baseX, y + TILE_SIZE - EYE_LARGE_INSET, baseX - EYE_LENGTH, y + TILE_SIZE - EYE_LARGE_INSET);
-                        break;
-                    }
-
-                }
+                gameDirection(x, y, type, g);
                 break;
         }
     }
@@ -425,7 +371,7 @@ public class BoardPanel extends JPanel {
         }
 
     }
-
+    
     /**
      * Initializes the images. Fruit 1 = apple Fruit 2 = kiwi Fruit 3 =
      * blueberry Bad Fruit = cucumber Zero Fruit = orange
@@ -452,6 +398,113 @@ public class BoardPanel extends JPanel {
         URL urlImagenBerry = this.getClass()
                 .getResource("images/blueberry.gif");
         imaBlueBerry = Toolkit.getDefaultToolkit().getImage(urlImagenBerry);
+
+    }
+    
+    
+    /**
+     * The eyes will always 'face' the direction that the snake is moving.
+     *
+     * Vertical lines indicate that it's facing North or South, and Horizontal
+     * lines indicate that it's facing East or West.
+     *
+     * Additionally, the eyes will be closer to whichever edge it's facing.
+     *
+     * Drawing the eyes is fairly simple, but is a bit difficult to explain. The
+     * basic process is this:
+     *
+     * First, we add (or subtract) EYE_SMALL_INSET to or from the side of the
+     * tile representing the direction we're facing. This will be constant for
+     * both eyes, and is represented by the variable 'baseX' or 'baseY'
+     * (depending on orientation).
+     *
+     * Next, we add (or subtract) EYE_LARGE_INSET to and from the two
+     * neighboring directions (Example; East and West if we're facing north).
+     *
+     * Finally, we draw a line from the base offset that is EYE_LENGTH pixels in
+     * length at whatever the offset is from the neighboring directions.
+     *
+     */
+    public void gameDirection(int x, int y, TileType type, Graphics g) {
+
+        switch (game.getDirection()) {
+
+            case North: {
+                gameDirectionNorth(x, y, type, g);
+                break;
+            }
+
+            case South: {
+                gameDirectionSouth(x, y, type, g);
+                break;
+            }
+
+            case West: {
+                gameDirectionWest(x, y, type, g);
+                break;
+            }
+
+            case East: {
+                gameDirectionEast(x, y, type, g);
+                break;
+            }
+        }
+    }
+    
+    public void gameDirectionNorth(int x, int y, TileType type, Graphics g) {
+
+        int baseY = y + EYE_SMALL_INSET;
+        g.drawLine(x + EYE_LARGE_INSET, baseY, x
+                + EYE_LARGE_INSET, baseY + EYE_LENGTH);
+        g.drawLine(x + TILE_SIZE - EYE_LARGE_INSET, baseY, x
+                + TILE_SIZE - EYE_LARGE_INSET, baseY + EYE_LENGTH);
+
+    }
+
+    public void gameDirectionSouth(int x, int y, TileType type, Graphics g) {
+
+        int baseY = y + TILE_SIZE - EYE_SMALL_INSET;
+        g.drawLine(x + EYE_LARGE_INSET, baseY, x
+                + EYE_LARGE_INSET, baseY - EYE_LENGTH);
+        g.drawLine(x + TILE_SIZE - EYE_LARGE_INSET, baseY, x
+                + TILE_SIZE - EYE_LARGE_INSET, baseY - EYE_LENGTH);
+
+    }
+
+    public void gameDirectionWest(int x, int y, TileType type, Graphics g) {
+
+        int baseX = x + EYE_SMALL_INSET;
+        g.drawLine(baseX, y + EYE_LARGE_INSET, baseX
+                + EYE_LENGTH, y + EYE_LARGE_INSET);
+        g.drawLine(baseX, y + TILE_SIZE - EYE_LARGE_INSET, baseX
+                + EYE_LENGTH, y + TILE_SIZE - EYE_LARGE_INSET);
+
+    }
+
+    public void gameDirectionEast(int x, int y, TileType type, Graphics g) {
+
+        int baseX = x + TILE_SIZE - EYE_SMALL_INSET;
+        g.drawLine(baseX, y + EYE_LARGE_INSET, baseX
+                - EYE_LENGTH, y + EYE_LARGE_INSET);
+        g.drawLine(baseX, y + TILE_SIZE - EYE_LARGE_INSET, baseX
+                - EYE_LENGTH, y + TILE_SIZE - EYE_LARGE_INSET);
+
+    }
+    
+    public void snakeHead(int x, int y, TileType type, Graphics g) {
+     
+        //Fill the tile in with green.
+        g.setColor(type.getSnakeColor(game.iSnakeColorCounter));
+        g.fillRect(x, y, TILE_SIZE, TILE_SIZE);
+
+        //Set the color to black so that we can start drawing the eyes.
+        g.setColor(Color.BLACK);
+        
+    }
+    
+    public void snakeBody(int x, int y, TileType type, Graphics g) {
+        g.setColor(type.getSnakeColor(game.iSnakeColorCounter));
+        g.fillRect(x, y, TILE_SIZE, TILE_SIZE);
 
     }
 }
