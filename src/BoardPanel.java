@@ -190,7 +190,7 @@ public class BoardPanel extends JPanel {
             largeMessage = "Paused";
             smallMessage = "Press P to Resume";
         }
-        
+
         /**
          * Set the message font and draw the messages in the center of the
          * board.
@@ -225,7 +225,7 @@ public class BoardPanel extends JPanel {
          */
         if (game.isGameOver() || game.isNewGame() || game.isPaused()) {
             g.setColor(Color.BLACK);
-            
+
             /**
              * Allocate the messages for and set their values based on the game
              * state.
@@ -251,7 +251,6 @@ public class BoardPanel extends JPanel {
          * run through a switch statement rather than come up with some overly
          * complex code to handle everything.
          */
-        
         switch (type) {
 
             /**
@@ -308,8 +307,8 @@ public class BoardPanel extends JPanel {
              * lines (representing eyes) that indicate it's direction.
              */
             case SnakeHead:
-               
-                snakeHead(x, y,  type, g);
+
+                snakeHead(x, y, type, g);
 
                 /**
                  * The eyes will always 'face' the direction that the snake is
@@ -371,7 +370,7 @@ public class BoardPanel extends JPanel {
         }
 
     }
-    
+
     /**
      * Initializes the images. Fruit 1 = apple Fruit 2 = kiwi Fruit 3 =
      * blueberry Bad Fruit = cucumber Zero Fruit = orange
@@ -400,8 +399,7 @@ public class BoardPanel extends JPanel {
         imaBlueBerry = Toolkit.getDefaultToolkit().getImage(urlImagenBerry);
 
     }
-    
-    
+
     /**
      * The eyes will always 'face' the direction that the snake is moving.
      *
@@ -450,7 +448,7 @@ public class BoardPanel extends JPanel {
             }
         }
     }
-    
+
     public void gameDirectionNorth(int x, int y, TileType type, Graphics g) {
 
         int baseY = y + EYE_SMALL_INSET;
@@ -490,18 +488,18 @@ public class BoardPanel extends JPanel {
                 - EYE_LENGTH, y + TILE_SIZE - EYE_LARGE_INSET);
 
     }
-    
+
     public void snakeHead(int x, int y, TileType type, Graphics g) {
-     
+
         //Fill the tile in with green.
         g.setColor(type.getSnakeColor(game.iSnakeColorCounter));
         g.fillRect(x, y, TILE_SIZE, TILE_SIZE);
 
         //Set the color to black so that we can start drawing the eyes.
         g.setColor(Color.BLACK);
-        
+
     }
-    
+
     public void snakeBody(int x, int y, TileType type, Graphics g) {
         g.setColor(type.getSnakeColor(game.iSnakeColorCounter));
         g.fillRect(x, y, TILE_SIZE, TILE_SIZE);
