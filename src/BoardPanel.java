@@ -135,12 +135,12 @@ public class BoardPanel extends JPanel {
     public TileType getTile(int x, int y) {
         return tiles[y * ROW_COUNT + x];
     }
-    
+
     /**
      * Loop through each tile on the board and draw it if it is not null.
      */
-    public void drawTile(Graphics g){
-                
+    public void drawTile(Graphics g) {
+
         for (int x = 0; x < COL_COUNT; x++) {
             for (int y = 0; y < ROW_COUNT; y++) {
                 TileType type = getTile(x, y);
@@ -150,8 +150,7 @@ public class BoardPanel extends JPanel {
             }
         }
     }
-    
-    
+
     /**
      * Draw the grid on the board. This makes it easier to see exactly where we
      * in relation to the fruit.
@@ -170,38 +169,38 @@ public class BoardPanel extends JPanel {
             }
         }
     }
-    
+
     public void messageAllocator(Graphics g) {
-        
+
         /**
          * Get the center coordinates of the board.
          */
-         int centerX = getWidth() / 2;
-         int centerY = getHeight() / 2;
+        int centerX = getWidth() / 2;
+        int centerY = getHeight() / 2;
 
-         String largeMessage = null;
-            String smallMessage = null;
-            g.setColor(new Color(194, 71, 71).darker());
-            if (game.isNewGame()) {
-                largeMessage = "Snake Game!";
-                smallMessage = "Press Enter to Start";
-            } else if (game.isGameOver()) {
-                largeMessage = "Game Over!";
-                smallMessage = "Press Enter to Restart";
-            } else if (game.isPaused()) {
-                largeMessage = "Paused";
-                smallMessage = "Press P to Resume";
-            }
-            
-            /**
-             * Set the message font and draw the messages in the center of the board.
-             */
-            g.setFont(FONT);
-            g.drawString(largeMessage, centerX - g.getFontMetrics().
-                    stringWidth(largeMessage) / 2, centerY - 50);
-            g.drawString(smallMessage, centerX - g.getFontMetrics().
-                    stringWidth(smallMessage) / 2, centerY + 50);
-        
+        String largeMessage = null;
+        String smallMessage = null;
+        g.setColor(new Color(194, 71, 71).darker());
+        if (game.isNewGame()) {
+            largeMessage = "Snake Game!";
+            smallMessage = "Press Enter to Start";
+        } else if (game.isGameOver()) {
+            largeMessage = "Game Over!";
+            smallMessage = "Press Enter to Restart";
+        } else if (game.isPaused()) {
+            largeMessage = "Paused";
+            smallMessage = "Press P to Resume";
+        }
+
+        /**
+         * Set the message font and draw the messages in the center of the
+         * board.
+         */
+        g.setFont(FONT);
+        g.drawString(largeMessage, centerX - g.getFontMetrics().
+                stringWidth(largeMessage) / 2, centerY - 50);
+        g.drawString(smallMessage, centerX - g.getFontMetrics().
+                stringWidth(smallMessage) / 2, centerY + 50);
     }
 
     @Override
@@ -211,7 +210,6 @@ public class BoardPanel extends JPanel {
         /**
          * Loop through each tile on the board and draw it if it is not null.
          */
-        
         drawTile(g);
 
         /**
@@ -229,14 +227,12 @@ public class BoardPanel extends JPanel {
         if (game.isGameOver() || game.isNewGame() || game.isPaused()) {
             g.setColor(Color.BLACK);
 
-            
             /**
              * Allocate the messages for and set their values based on the game
              * state.
              */
-            
             messageAllocator(g);
-  
+
         }
     }
 
@@ -312,9 +308,9 @@ public class BoardPanel extends JPanel {
                 g.fillRect(x, y, TILE_SIZE, TILE_SIZE);
                 break;
 
-            /*
-		 * The snake head is depicted similarly to the body, but with two
-		 * lines (representing eyes) that indicate it's direction.
+            /**
+             * The snake head is depicted similarly to the body, but with two
+             * lines (representing eyes) that indicate it's direction.
              */
             case SnakeHead:
                 //Fill the tile in with green.
@@ -324,32 +320,32 @@ public class BoardPanel extends JPanel {
                 //Set the color to black so that we can start drawing the eyes.
                 g.setColor(Color.BLACK);
 
-                /*
-			 * The eyes will always 'face' the direction that the snake is
-			 * moving.
-			 * 
-			 * Vertical lines indicate that it's facing North or South, and
-			 * Horizontal lines indicate that it's facing East or West.
-			 * 
-			 * Additionally, the eyes will be closer to whichever edge it's
-			 * facing.
-			 * 
-			 * Drawing the eyes is fairly simple, but is a bit difficult to
-			 * explain. The basic process is this:
-			 * 
-			 * First, we add (or subtract) EYE_SMALL_INSET to or from the
-			 * side of the tile representing the direction we're facing. This
-			 * will be constant for both eyes, and is represented by the
-			 * variable 'baseX' or 'baseY' (depending on orientation).
-			 * 
-			 * Next, we add (or subtract) EYE_LARGE_INSET to and from the two
-			 * neighboring directions (Example; East and West if we're facing
-			 * north).
-			 * 
-			 * Finally, we draw a line from the base offset that is EYE_LENGTH
-			 * pixels in length at whatever the offset is from the neighboring
-			 * directions.
-			 * 
+                /**
+                 * The eyes will always 'face' the direction that the snake is
+                 * moving.
+                 *
+                 * Vertical lines indicate that it's facing North or South, and
+                 * Horizontal lines indicate that it's facing East or West.
+                 *
+                 * Additionally, the eyes will be closer to whichever edge it's
+                 * facing.
+                 *
+                 * Drawing the eyes is fairly simple, but is a bit difficult to
+                 * explain. The basic process is this:
+                 *
+                 * First, we add (or subtract) EYE_SMALL_INSET to or from the
+                 * side of the tile representing the direction we're facing.
+                 * This will be constant for both eyes, and is represented by
+                 * the variable 'baseX' or 'baseY' (depending on orientation).
+                 *
+                 * Next, we add (or subtract) EYE_LARGE_INSET to and from the
+                 * two neighboring directions (Example; East and West if we're
+                 * facing north).
+                 *
+                 * Finally, we draw a line from the base offset that is
+                 * EYE_LENGTH pixels in length at whatever the offset is from
+                 * the neighboring directions.
+                 *
                  */
                 switch (game.getDirection()) {
                     case North: {
