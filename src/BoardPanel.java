@@ -16,6 +16,7 @@ import javax.swing.JPanel;
  *
  * @author Sergio Diaz A01192313
  * @author Ana Karen Beltran A01192508
+ * Version: 1.0 entregada
  *
  */
 public class BoardPanel extends JPanel {
