@@ -1,4 +1,3 @@
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Point;
@@ -801,13 +800,14 @@ public class SnakeGame extends JFrame implements KeyListener {
      */
     public void grabaArchivo() throws IOException {
         ObjectOutputStream fpwArchivo = new ObjectOutputStream(new 
-            BufferedOutputStream(new FileOutputStream(sNombreArchivo)));
+            BufferedOutputStream(new FileOutputStream(sNombreArchivo, false)));
 
         fpwArchivo.writeInt(getScore());
         fpwArchivo.writeInt(getNextFruitScore());
         fpwArchivo.writeInt(getFruitsEaten());
         fpwArchivo.writeBoolean(isGameOver);
         fpwArchivo.writeBoolean(isNewGame);
+        fpwArchivo.writeBoolean(isPaused);
 
         //linkedlist direccion
         fpwArchivo.writeObject(this.getDirection());
@@ -821,6 +821,7 @@ public class SnakeGame extends JFrame implements KeyListener {
             fpwArchivo.writeInt(matStatus[iR]);
         }
         fpwArchivo.close();
+        System.out.println("djshdlkaj");
     }
 
     /**
@@ -829,21 +830,15 @@ public class SnakeGame extends JFrame implements KeyListener {
      * @throws IOException
      */
     public void leeArchivo() throws IOException, ClassNotFoundException {
-        BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
-        PrintWriter stdOut = new PrintWriter(System.out, true);
 
         try {
             // asking user the name of the user
-            //System.out.print("Ingresa el nombre del usuario:");
-            String sNombreArchivo = JOptionPane.showInputDialog("Cual es tu nombre?");
-//                JOptionPane.showMessageDialog(null, 
-//                              "El puntaje de " + nombre + " es: " + score, "PUNTAJE", 
-//                              JOptionPane.PLAIN_MESSAGE);
-            System.out.print(sNombreArchivo);
+            sNombreArchivo = JOptionPane.showInputDialog("Cual es tu nombre?");
+            
+            sNombreArchivo += ".dat";
             // opening file
             ObjectInputStream finArchivo = new ObjectInputStream(new 
-                BufferedInputStream(new FileInputStream(sNombreArchivo
-                    + ".dat")));
+                BufferedInputStream(new FileInputStream(sNombreArchivo)));
             boolean flag = true;
             try {
                 // reading data from file & transfering it to variables
@@ -852,8 +847,8 @@ public class SnakeGame extends JFrame implements KeyListener {
                 this.fruitsEaten = finArchivo.readInt();
                 this.isGameOver = finArchivo.readBoolean();
                 this.isNewGame = finArchivo.readBoolean();
+                this.isPaused = finArchivo.readBoolean();
 
-                //snake.clear();
                 //linkedlist direccion
                 this.setDirection((Direction) finArchivo.readObject());
 
@@ -874,11 +869,10 @@ public class SnakeGame extends JFrame implements KeyListener {
                 finArchivo.close();// closing file
             } catch (EOFException e) {
             } catch (ClassNotFoundException ex) {
-                stdOut.println(ex.getMessage());
+                //stdOut.println(ex.getMessage());
             }
-            //inFile.close(); // closing file
         } catch (Exception e) {
-            stdOut.println(e.getMessage());
+            //stdOut.println(e.getMessage());
             // file not found exception
             System.out.println("That user does not exist.");
             // user must create a new file
@@ -959,6 +953,11 @@ public class SnakeGame extends JFrame implements KeyListener {
              */
             case KeyEvent.VK_G: {
                 if (!isGameOver && !isPaused) {
+                    pauseGame();//pone pausa
+                    sNombreArchivo = JOptionPane.showInputDialog("Cual es tu "
+                            + "nombre?");
+                    sNombreArchivo += ".dat";
+                    pauseGame();//despausa
                     try {
                         grabaArchivo();
                     } catch (IOException ex) {
@@ -972,6 +971,7 @@ public class SnakeGame extends JFrame implements KeyListener {
              */
             case KeyEvent.VK_C: {
                 if (!isGameOver && !isPaused) {
+                    pauseGame();
                     try {
                         leeArchivo();
                     } catch (IOException ex) {
@@ -979,6 +979,7 @@ public class SnakeGame extends JFrame implements KeyListener {
                     } catch (ClassNotFoundException ex) {
                         System.out.println(ex);
                     }
+                    pauseGame();
                 }
             }
             break;
